@@ -1,4 +1,8 @@
-export PYTHONPATH="${PYTHONPATH}:/Users/sarahhakim/PycharmProjects/nba_odds/.venv/lib/"
+#!/usr/bin/env bash
+
+BASEDIR=$(dirname "$0")
+
+export PYTHONPATH="${PYTHONPATH}:${BASEDIR}/.venv/lib/"
 
 source .venv/bin/activate
 
