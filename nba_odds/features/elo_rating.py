@@ -77,9 +77,9 @@ class EloRating:
                        'h_team_elo_before': h_team_elo_before, 'a_team_elo_before': a_team_elo_before,
                        'h_team_elo_after': h_team_elo_after, 'a_team_elo_after': a_team_elo_after}
 
-            teams_row_one = {'game_id': game_id, 'id': str(h_team), 'elo': h_team_elo_before,
+            teams_row_one = {'game_id': game_id, 'id': h_team, 'elo': h_team_elo_before,
                              'date': game_date, 'season': season}
-            teams_row_two = {'game_id': game_id, 'id': str(a_team), 'elo': a_team_elo_before,
+            teams_row_two = {'game_id': game_id, 'id': a_team, 'elo': a_team_elo_before,
                              'date': game_date, 'season': season}
 
             elo_df = elo_df.append(new_row, ignore_index=True)
@@ -88,15 +88,15 @@ class EloRating:
         return teams_elo_df
 
     @staticmethod
-    def get_preseason_elo(teams_elo_df):
-        """ Transform elo dataframe to get preseason elo.
+    def get_first_elo_season(teams_elo_df):
+        """ Transform elo dataframe to get first elo of the season.
         :param teams_elo_df: dataframe with elo for each game date.
         :return: pandas dataframe with one line per team per season.
         """
-        preseason_elo = (teams_elo_df
-                         .sort_values(by=['id', 'date'])
-                         .drop_duplicates(['id', 'season'], keep='first'))
-        return preseason_elo[['id', 'elo', 'season']]
+        first_elo = (teams_elo_df
+                     .sort_values(by=['id', 'date'])
+                     .drop_duplicates(['id', 'season'], keep='first'))
+        return first_elo[['id', 'elo', 'season']]
 
     def _get_total_points(self, basket_ref_games):
         home_pts_cols = ['home1', 'home2', 'home3', 'home4', 'home1_ot', 'home2_ot', 'home3_ot', 'home4_ot']

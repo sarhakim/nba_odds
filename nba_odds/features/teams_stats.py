@@ -1,28 +1,32 @@
-""" Class to aggregate previous season features by team."""
+""" Class to aggregate season features by team."""
 
 from nba_odds.config.config import GamesRawSchema, ProcessedSchema
 
 
-class PreviousSeason:
-    """ Aggregate previous season features from games_per_team dataset.
+class TeamsStats:
+    """ Aggregate season features from games_per_team dataset.
 
     :attributes games_per_team dataframe from nba_odds.preprocessing.games_per_team
-    :methods compute_features
+    :methods compute_previous_season_features, compute_aggregated_features
     """
 
     def __init__(self, games_per_team):
         self.games_per_team = games_per_team
 
-    def compute_features(self):
+    def compute_previous_season_features(self):
         """ Compute features by team."""
-        games_per_team = self.games_per_team
-        games_per_team['goal_diff'] = games_per_team['points_before_ot'] - games_per_team['opp_points_before_ot']
-        agg_dataset = self._aggregate_dataset(games_per_team=games_per_team)
+        agg_dataset = self.compute_aggregated_features()
 
         agg_dataset[GamesRawSchema.season] += 1
         previous_season_features = agg_dataset.query(f'{GamesRawSchema.season} < 2019')
-
         return previous_season_features
+
+    def compute_aggregated_features(self):
+        """ Aggregate game features to get feature by team on season."""
+        games_per_team = self.games_per_team
+        games_per_team['goal_diff'] = games_per_team['points_before_ot'] - games_per_team['opp_points_before_ot']
+        agg_dataset = self._aggregate_dataset(games_per_team=games_per_team)
+        return agg_dataset
 
     @staticmethod
     def _aggregate_dataset(games_per_team):

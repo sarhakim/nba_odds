@@ -1,10 +1,11 @@
 """ Classes with paths, column names and parameters."""
-
+import os
 
 class Paths:
     """Paths to load data."""
-    path_basket_ref_box_score = "../data/BasketrefBoxscores.parquet"
-    path_basket_ref_games = "../data/BasketrefGames.parquet"
+    project_dir = os.path.dirname(os.path.dirname(os.path.dirname(__file__)))
+    path_basket_ref_box_score = os.path.join(project_dir, "data/BasketrefBoxscores.parquet")
+    path_basket_ref_games = os.path.join(project_dir, "data/BasketrefGames.parquet")
 
 
 class GamesRawSchema:
