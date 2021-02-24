@@ -3,7 +3,7 @@ from unittest import TestCase
 
 import pandas as pd
 
-from nba_odds.preprocessing.games_per_team import PreviousSeasonFeatures
+from nba_odds.preprocessing.games_per_team import GamesPerTeam
 
 
 class TestGamesPerTeam(TestCase):
@@ -35,7 +35,7 @@ class TestGamesPerTeam(TestCase):
         )
 
         # When 
-        actual = (PreviousSeasonFeatures(basket_ref_games=None)
+        actual = (GamesPerTeam(basket_ref_games=None)
                   ._build_games_per_team(basket_ref_games=basket_ref_games)
                   .reset_index(drop=True))
 

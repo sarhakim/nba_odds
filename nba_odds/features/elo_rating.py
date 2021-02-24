@@ -59,12 +59,12 @@ class EloRating:
             ylabel = row['ylabel']
 
             if h_team not in elo_df['home_id'].values and h_team not in elo_df['away_id'].values:
-                h_team_elo_before = 1500.0
+                h_team_elo_before = 1500
             else:
                 h_team_elo_before = self._get_prev_elo(h_team, game_date, season, team_stats, elo_df)
 
             if a_team not in elo_df['home_id'].values and a_team not in elo_df['away_id'].values:
-                a_team_elo_before = 1500.0
+                a_team_elo_before = 1500
             else:
                 a_team_elo_before = self._get_prev_elo(a_team, game_date, season, team_stats, elo_df)
 

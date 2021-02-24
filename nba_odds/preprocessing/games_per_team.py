@@ -7,27 +7,34 @@ from nba_odds.config.config import GamesRawSchema, ProcessedSchema
 class GamesPerTeam:
     """Clean data (floats and dates) and create a dataset with one row per team per game.
 
-    :param basket_ref_games: raw pandas dataframe with one line per game.
+    :attribute basket_ref_games: raw pandas dataframe with one line per game.
+    :method build_dataset
     """
 
     def __init__(self, basket_ref_games):
         self.basket_ref_games = basket_ref_games
 
     def build_dataset(self):
-        """
-        Clean and transform the dataframe with one line per game into a dataframe with one line per game per team.
+        """Clean and transform the dataframe with one line per game into a dataframe with one line per game per team.
 
         :return: pandas dataframe with one line per team per game
         """
         basket_ref_games = self.basket_ref_games
 
-        basket_ref_games[GamesRawSchema.date_col] = pd.to_datetime(basket_ref_games[GamesRawSchema.date_col])
+        basket_ref_games = self._process_date(basket_ref_games)
+
         basket_ref_games['away_points_before_ot'] = self._compute_away_points(basket_ref_games)
         basket_ref_games['home_points_before_ot'] = self._compute_home_points(basket_ref_games)
+
         games_with_floats = self._process_floats(basket_ref_games=basket_ref_games)
 
         games_per_team = self._build_games_per_team(games_with_floats)
         return games_per_team
+
+    @staticmethod
+    def _process_date(basket_ref_games):
+        basket_ref_games[GamesRawSchema.date_col] = pd.to_datetime(basket_ref_games[GamesRawSchema.date_col])
+        return basket_ref_games
 
     @staticmethod
     def _compute_home_points(basket_ref_games):
