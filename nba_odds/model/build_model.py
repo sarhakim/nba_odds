@@ -11,6 +11,7 @@ from sklearn.preprocessing import StandardScaler
 
 from nba_odds.config.config import Paths
 
+
 class BuildModel:
     """Class to build the model from a provided dataset."""
 
