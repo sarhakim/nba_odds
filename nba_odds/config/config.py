@@ -7,6 +7,11 @@ class Paths:
     path_basket_ref_box_score = os.path.join(project_dir, "data/BasketrefBoxscores.parquet")
     path_basket_ref_games = os.path.join(project_dir, "data/BasketrefGames.parquet")
 
+    output_preseason_features = os.path.join(project_dir, 'data/preseason_dataset.csv')
+    output_preplayoff_features = os.path.join(project_dir, 'data/preplayoff_dataset.csv')
+
+    model_dir = os.path.join(project_dir, 'model/')
+
 
 class GamesRawSchema:
     """ Columns used in the games raw data."""

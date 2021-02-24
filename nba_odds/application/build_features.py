@@ -37,8 +37,8 @@ def main():
     playoff_dataset = _build_playoff_features(all_games_elo, basket_ref_box_score, elo_rating, games_per_team,
                                               winner_by_season)
 
-    preseason_features.to_csv('data/preseason_dataset.csv')
-    playoff_dataset.to_csv('data/preplayoff_dataset.csv')
+    preseason_features.to_csv(Paths.output_preseason_features)
+    playoff_dataset.to_csv(Paths.output_preseason_features)
     return preseason_features, playoff_dataset
 
 
@@ -88,5 +88,6 @@ def _set_labels(features, winner_by_season):
     with_label['won'] = with_label['won'] == with_label['id']
     return with_label
 
-if __name__=="__main__":
+
+if __name__ == "__main__":
     main()
