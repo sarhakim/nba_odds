@@ -1,13 +1,13 @@
-"""Class to test ProcessGames class."""
+"""Class to test GamesPerTeam class."""
 from unittest import TestCase
 
 import pandas as pd
 
-from nba_odds.preprocessing.previous_season_features import PreviousSeasonFeatures
+from nba_odds.preprocessing.games_per_team import PreviousSeasonFeatures
 
 
-class TestPreviousSeasonFeatures(TestCase):
-    """Class to test ProcessGames class."""
+class TestGamesPerTeam(TestCase):
+    """Class to test GamesPerTeam class."""
 
     def test__build_games_per_team(self):
         # Given

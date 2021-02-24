@@ -26,3 +26,7 @@ poetry install --no-root
 ```
 python -m ipykernel install --user --name=nba-odds-env
 ```
+# Références 
+
+https://towardsdatascience.com/predicting-the-outcome-of-nba-games-with-machine-learning-a810bb768f20
+
