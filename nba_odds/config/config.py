@@ -32,7 +32,3 @@ class ProcessedSchema:
     team_id = 'id'
     points_before_ot = 'points_before_ot' # ot means overtime.
     won = 'won'
-
-    agg_features = ['points_before_ot_sum', 'score_mean', 'opp_points_before_ot_sum', 'goal_avg_mean',
-                    'won_sum', 'efg_mean', 'opp_efg_mean', 'tov_mean', 'opp_tov_mean', 'orb_sum',
-                    'opp_orb_sum', 'ortg_mean', 'opp_ortg_mean']
