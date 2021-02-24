@@ -1,11 +1,21 @@
 """ Calculate a simplified PER rating per season per team."""
 from nba_odds.config.params import PerParams
 
+
 class PER:
+    """Compute per per team.
+
+    :attributes players_data dataframe from odds.preprocessing.players_data
+    :methods compute_simplified_per
+    """
     def __init__(self, players_data):
         self.players_data = players_data
 
     def compute_simplified_per(self):
+        """Calculate a simplified per over players games and aggregate it by team.
+
+        :return: dataframe with mean, max per per team and number of nba top players in the team.
+        """
         players_data = self.players_data
 
         players_data['PER'] = players_data.apply(lambda x: self._calculate_per(x), axis=1)
@@ -32,7 +42,7 @@ class PER:
     def _aggregate_by_player_on_season(players_data):
         mean_per = (players_data[['player_id', 'season', 'PER', 'game_id', 'mp', 'id']].dropna().groupby(
             ['player_id', 'season', 'id'])
-            .agg({'PER': ['mean', 'median', 'max', 'min'], 'mp': ['sum'], 'game_id': ['count']}))
+                    .agg({'PER': ['mean', 'median', 'max', 'min'], 'mp': ['sum'], 'game_id': ['count']}))
         mean_per.columns = ['_'.join(col) for col in mean_per.columns]
         mean_per = mean_per.reset_index()
         return mean_per

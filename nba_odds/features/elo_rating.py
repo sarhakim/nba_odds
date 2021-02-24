@@ -31,7 +31,7 @@ class EloRating:
         """
         basket_ref_games = self.basket_ref_games
 
-        # already done in games_per_team - todo: refactor?
+        # already done in games_per_team - todo
         basket_ref_games[GamesRawSchema.date_col] = pd.to_datetime(basket_ref_games[GamesRawSchema.date_col])
 
         games_with_total_pts = self._get_total_points(basket_ref_games)
@@ -59,12 +59,12 @@ class EloRating:
             ylabel = row['ylabel']
 
             if h_team not in elo_df['home_id'].values and h_team not in elo_df['away_id'].values:
-                h_team_elo_before = 1500
+                h_team_elo_before = 1500.0
             else:
                 h_team_elo_before = self._get_prev_elo(h_team, game_date, season, team_stats, elo_df)
 
             if a_team not in elo_df['home_id'].values and a_team not in elo_df['away_id'].values:
-                a_team_elo_before = 1500
+                a_team_elo_before = 1500.0
             else:
                 a_team_elo_before = self._get_prev_elo(a_team, game_date, season, team_stats, elo_df)
 
@@ -94,9 +94,9 @@ class EloRating:
         :return: pandas dataframe with one line per team per season.
         """
         preseason_elo = (teams_elo_df
-                         .sort_values(by=['team', 'date'])
-                         .drop_duplicates(['team', 'season'], keep='first'))
-        return preseason_elo[['team', 'elo', 'season']].copy().rename(columns={'team': 'id'})
+                         .sort_values(by=['id', 'date'])
+                         .drop_duplicates(['id', 'season'], keep='first'))
+        return preseason_elo[['id', 'elo', 'season']]
 
     def _get_total_points(self, basket_ref_games):
         home_pts_cols = ['home1', 'home2', 'home3', 'home4', 'home1_ot', 'home2_ot', 'home3_ot', 'home4_ot']

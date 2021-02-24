@@ -1,19 +1,20 @@
-""" TODO """
-import pandas as pd
+""" Class to aggregate previous season features by team."""
 
 from nba_odds.config.config import GamesRawSchema, ProcessedSchema
 
 
 class PreviousSeason:
-    """
-    TODO
+    """ Aggregate previous season features from games_per_team dataset.
+
+    :attributes games_per_team dataframe from nba_odds.preprocessing.games_per_team
+    :methods compute_features
     """
 
     def __init__(self, games_per_team):
         self.games_per_team = games_per_team
 
     def compute_features(self):
-        """ TODO """
+        """ Compute features by team."""
         games_per_team = self.games_per_team
         games_per_team['goal_diff'] = games_per_team['points_before_ot'] - games_per_team['opp_points_before_ot']
         agg_dataset = self._aggregate_dataset(games_per_team=games_per_team)
