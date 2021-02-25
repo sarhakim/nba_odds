@@ -46,9 +46,9 @@ class TestEloRating(TestCase):
             {'date': ['2020-01-01', '2020-01-01', '2021-04-01', '2021-04-01'],
              'game_id': ['123', '123', '456', '456'],
              'season': ['2020', '2020', '2021', '2021'],
-             'id': ['5', '7', '7', '5'],
+             'id': [5, 7, 7, 5],
              'elo': [1500, 1500, away_updated_after_season, home_updated_after_season]
              }
         )
         pd.testing.assert_frame_equal(actual_elo_ratings.sort_index(axis=1),
-                                      expected_elo_rating.sort_index(axis=1))
+                                      expected_elo_rating.sort_index(axis=1), check_dtype=False)
