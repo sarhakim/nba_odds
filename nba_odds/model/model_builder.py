@@ -4,11 +4,12 @@ import os
 import time
 
 import joblib
-from sklearn.metrics import mean_absolute_error, mean_squared_error
+from sklearn.metrics import mean_absolute_error, mean_squared_error, precision_score, recall_score
 from sklearn.preprocessing import StandardScaler
 
 from nba_odds.config.config import Paths
 
+logging.basicConfig(level=logging.INFO)
 
 class ModelBuilder:
     """Class to build the model from a provided dataset."""
@@ -20,6 +21,8 @@ class ModelBuilder:
         self.model_name = model_name
         self.mae = None
         self.rmse = None
+        self.precision = None
+        self.recall = None
 
     def build(self):
         """ Build the model."""
@@ -42,8 +45,8 @@ class ModelBuilder:
         predictions = self._model_performances(x_test=x_test_scaled, y_test=y_test)
         self._save_model(processed_df_columns=self.dataset.columns)
 
-        season_to_pred['predictions'] = predictions
-        season_to_pred['odds'] = season_to_pred['predictions'].apply(lambda x: 1 / x if x > 0 else None)
+        season_to_pred.loc[:, 'predictions'] = predictions
+        season_to_pred.loc[:, 'odds'] = season_to_pred['predictions'].apply(lambda x: 1 / x if x > 0 else None)
         return season_to_pred[['season', 'id', 'predictions', 'odds']]
 
     @staticmethod
@@ -63,10 +66,16 @@ class ModelBuilder:
     def _model_performances(self, x_test, y_test):
         predictions = self.model.predict_proba(x_test)
         proba = predictions[:, 1]
+        threshold = 0.5
+        pred = [1 if x >= threshold else 0 for x in proba]
         self.mae = mean_absolute_error(y_pred=proba, y_true=y_test)
         self.rmse = mean_squared_error(y_pred=proba, y_true=y_test)
+        self.precision = precision_score(y_pred=pred, y_true=y_test)
+        self.recall = recall_score(y_pred=pred, y_true=y_test)
         logging.info(f"mae : {self.mae}")
         logging.info(f"rmse : {self.rmse}")
+        logging.info(f"precision : {self.precision}")
+        logging.info(f"recall : {self.recall}")
         return proba
 
     def _save_model(self, processed_df_columns):
