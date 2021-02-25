@@ -66,7 +66,7 @@ class ModelBuilder:
     def _model_performances(self, x_test, y_test):
         predictions = self.model.predict_proba(x_test)
         proba = predictions[:, 1]
-        threshold = 0.5
+        threshold = 0.4
         pred = [1 if x >= threshold else 0 for x in proba]
         self.mae = mean_absolute_error(y_pred=proba, y_true=y_test)
         self.rmse = mean_squared_error(y_pred=proba, y_true=y_test)

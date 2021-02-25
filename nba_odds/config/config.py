@@ -12,8 +12,8 @@ class Paths:
     output_preplayoff_features = os.path.join(project_dir, 'data/preplayoff_dataset.csv')
 
     model_dir = os.path.join(project_dir, 'model/')
-    output_preseason_odds_path = os.path.join(project_dir, 'data/nba_preseason_predictions.csv')
-    output_playoff_odds_path = os.path.join(project_dir, 'data/nba_playoff_predictions.csv')
+    output_preseason_odds_path = os.path.join(project_dir, 'predictions/nba_preseason_predictions.csv')
+    output_playoff_odds_path = os.path.join(project_dir, 'predictions/nba_playoff_predictions.csv')
 
 
 class GamesRawSchema:

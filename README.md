@@ -5,7 +5,7 @@ Project to predict NBA championship winner before NBA season and also before the
 ## Run
 
 To run the project in an environment with all the dependencies, use the shell scripts :
-- **build_features.sh**
+- **build_features.sh** (~ 10 min due to elo rating iteration)
 - **build_model.sh**
 
 ## Structure
