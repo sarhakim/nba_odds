@@ -1,6 +1,7 @@
 """ Classes with paths, column names and parameters."""
 import os
 
+
 class Paths:
     """Paths to load data."""
     project_dir = os.path.dirname(os.path.dirname(os.path.dirname(__file__)))
@@ -11,6 +12,8 @@ class Paths:
     output_preplayoff_features = os.path.join(project_dir, 'data/preplayoff_dataset.csv')
 
     model_dir = os.path.join(project_dir, 'model/')
+    output_preseason_odds_path = os.path.join(project_dir, 'data/nba_preseason_predictions.csv')
+    output_playoff_odds_path = os.path.join(project_dir, 'data/nba_playoff_predictions.csv')
 
 
 class GamesRawSchema:
@@ -36,5 +39,5 @@ class GamesRawSchema:
 class ProcessedSchema:
     """ Final dataset columns."""
     team_id = 'id'
-    points_before_ot = 'points_before_ot' # ot means overtime.
+    points_before_ot = 'points_before_ot'  # ot means overtime.
     won = 'won'

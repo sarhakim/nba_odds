@@ -92,7 +92,7 @@ class PER:
     def _aggregate_by_season_team(per_with_features):
         season_per = per_with_features.groupby(['season', 'id']).agg(
             {
-                'PER_mean': ['max', 'mean'],
+                'PER_mean': ['max', 'mean', 'sum'],
                 'is_good_player': ['sum']
             }
         )

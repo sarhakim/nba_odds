@@ -30,23 +30,21 @@ def main():
     all_games_elo = elo_rating.compute()
 
     # previous season features
-    preseason_features = _build_preseason_features(all_games_elo, elo_rating, games_per_team, players_stats,
+    preseason_features = _build_preseason_features(all_games_elo, games_per_team, players_stats,
                                                    players_with_team, winner_by_season)
 
     # regular season features
-    playoff_dataset = _build_playoff_features(all_games_elo, basket_ref_box_score, elo_rating, games_per_team,
-                                              winner_by_season)
+    playoff_dataset = _build_playoff_features(all_games_elo, basket_ref_box_score, games_per_team, winner_by_season)
 
-    preseason_features.to_csv(Paths.output_preseason_features)
-    playoff_dataset.to_csv(Paths.output_preseason_features)
+    preseason_features.to_csv(Paths.output_preseason_features, index=False)
+    playoff_dataset.to_csv(Paths.output_preseason_features, index=False)
     return preseason_features, playoff_dataset
 
 
-def _build_preseason_features(all_games_elo, elo_rating, games_per_team, players_stats, players_with_team,
-                              winner_by_season):
+def _build_preseason_features(all_games_elo, games_per_team, players_stats, players_with_team, winner_by_season):
     # preseason features
     teams_stats = TeamsStats(games_per_team=games_per_team).compute_previous_season_features()
-    preseason_elo = elo_rating.get_first_elo_season(teams_elo_df=all_games_elo)
+    preseason_elo = EloRating.get_first_elo_season(teams_elo_df=all_games_elo)
     preseason_per = PER(players_stats=players_stats, players_team=players_with_team).previous_season_per()
 
     dataset = _merge_all_features(per=preseason_per, elo=preseason_elo, teams_stats=teams_stats,
@@ -54,7 +52,7 @@ def _build_preseason_features(all_games_elo, elo_rating, games_per_team, players
     return dataset
 
 
-def _build_playoff_features(all_games_elo, basket_ref_box_score, elo_rating, games_per_team, winner_by_season):
+def _build_playoff_features(all_games_elo, basket_ref_box_score, games_per_team, winner_by_season):
     # recreate processed data for playoff
     playoff_splitter = SplitPlayoff(games_per_team=games_per_team)
     games_regular_season = playoff_splitter.keep_only_regular_season()
@@ -67,7 +65,7 @@ def _build_playoff_features(all_games_elo, basket_ref_box_score, elo_rating, gam
 
     # get elo rating before playoff
     playoff_elo = all_games_elo[all_games_elo['date'].isin(playoff_splitter.playoff_dates)]
-    preplayoff_elo = elo_rating.get_first_elo_season(playoff_elo)
+    preplayoff_elo = EloRating.get_first_elo_season(playoff_elo)
 
     # final dataset
     playoff_dataset = _merge_all_features(per=preplayoff_per, elo=preplayoff_elo, teams_stats=regular_season_stats,
