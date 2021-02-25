@@ -37,5 +37,5 @@ class SplitPlayoff:
 
     @property
     def playoff_dates(self):
-        games_playoff = self.games_per_team[self.games_per_team['datetime'] not in self.regular_season_dates]
+        games_playoff = self.games_per_team[self.games_per_team['datetime'].isin(self.regular_season_dates) == False]
         return games_playoff.datetime

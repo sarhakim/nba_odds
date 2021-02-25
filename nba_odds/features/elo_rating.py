@@ -41,6 +41,17 @@ class EloRating:
         teams_elo_df = self._calculate_elo_ratings(games_with_total_pts[team_stats_cols])
         return teams_elo_df
 
+    @staticmethod
+    def get_first_elo_season(teams_elo_df):
+        """ Transform elo dataframe to get first elo of the season.
+        :param teams_elo_df: dataframe with elo for each game date.
+        :return: pandas dataframe with one line per team per season.
+        """
+        first_elo = (teams_elo_df
+                     .sort_values(by=['id', 'date'])
+                     .drop_duplicates(['id', 'season'], keep='first'))
+        return first_elo[['id', 'elo', 'season']]
+
     def _calculate_elo_ratings(self, games_with_total_pts):
 
         team_stats = (games_with_total_pts
@@ -86,17 +97,6 @@ class EloRating:
             teams_elo_df = teams_elo_df.append(teams_row_one, ignore_index=True)
             teams_elo_df = teams_elo_df.append(teams_row_two, ignore_index=True)
         return teams_elo_df
-
-    @staticmethod
-    def get_first_elo_season(teams_elo_df):
-        """ Transform elo dataframe to get first elo of the season.
-        :param teams_elo_df: dataframe with elo for each game date.
-        :return: pandas dataframe with one line per team per season.
-        """
-        first_elo = (teams_elo_df
-                     .sort_values(by=['id', 'date'])
-                     .drop_duplicates(['id', 'season'], keep='first'))
-        return first_elo[['id', 'elo', 'season']]
 
     def _get_total_points(self, basket_ref_games):
         home_pts_cols = ['home1', 'home2', 'home3', 'home4', 'home1_ot', 'home2_ot', 'home3_ot', 'home4_ot']

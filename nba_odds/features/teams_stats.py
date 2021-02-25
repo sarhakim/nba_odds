@@ -24,7 +24,7 @@ class TeamsStats:
     def compute_aggregated_features(self):
         """ Aggregate game features to get feature by team on season."""
         games_per_team = self.games_per_team
-        games_per_team['goal_diff'] = games_per_team['points_before_ot'] - games_per_team['opp_points_before_ot']
+        games_per_team.loc[:, 'goal_diff'] = games_per_team['points_before_ot'] - games_per_team['opp_points_before_ot']
         agg_dataset = self._aggregate_dataset(games_per_team=games_per_team)
         return agg_dataset
 

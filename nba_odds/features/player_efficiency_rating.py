@@ -83,7 +83,7 @@ class PER:
     @staticmethod
     def _is_good_player_feature(per_by_player):
         threshold = PerParams.good_player_per_threshold
-        per_by_player['is_good_player'] = (
+        per_by_player.loc[:, 'is_good_player'] = (
                 per_by_player['PER_mean'] > per_by_player['PER_mean'].quantile(q=threshold)
         )
         return per_by_player

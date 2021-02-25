@@ -37,7 +37,7 @@ def main():
     playoff_dataset = _build_playoff_features(all_games_elo, basket_ref_box_score, games_per_team, winner_by_season)
 
     preseason_features.to_csv(Paths.output_preseason_features, index=False)
-    playoff_dataset.to_csv(Paths.output_preseason_features, index=False)
+    playoff_dataset.to_csv(Paths.output_preplayoff_features, index=False)
     return preseason_features, playoff_dataset
 
 
